@@ -8,7 +8,8 @@
   },
   "type": "module",
   "dependencies": {
-    "pixi.js": "^7.0.3"
+    "pixi.js": "^6.5.8",
+    "@pixi/assets": "^6.5.8"
   },
   "devDependencies": {
     "@types/jest": "^29.2.2",

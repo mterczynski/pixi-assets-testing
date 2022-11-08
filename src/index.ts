@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Assets, loadDDS } from "pixi.js";
+import { Assets, loadDDS } from "@pixi/assets";
 import { settings } from "./settings";
 
 const canvasWidth = 960;
@@ -15,6 +15,15 @@ function createBackground(texture: PIXI.Texture) {
 
 async function init() {
 	console.log('DDS loader enabled', Assets.loader.parsers.includes(loadDDS));
+
+	await Assets.init({
+		loader: {
+			parsers: [loadDDS]
+		}
+	});
+
+	console.log('DDS loader enabled after Assets.init', Assets.loader.parsers.includes(loadDDS));
+
 
 	Assets.add('ddsAsset', '/assets/sample.dds')
 

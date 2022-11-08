@@ -1,11 +1,12 @@
 import * as PIXI from "pixi.js";
+import { Assets, loadDDS } from "pixi.js";
 import { settings } from "./settings";
 
 const canvasWidth = 960;
 const canvasHeight = 600;
 
-function createBackground() {
-	const background = PIXI.Sprite.from("/assets/metal-texture.webp");
+function createBackground(texture: PIXI.Texture) {
+	const background = new PIXI.Sprite(texture)
 	background.width = settings.canvasWidth;
 	background.height = settings.canvasHeight;
 
@@ -13,8 +14,18 @@ function createBackground() {
 }
 
 async function init() {
+	console.log('DDS loader enabled', Assets.loader.parsers.includes(loadDDS));
+
+	Assets.add('ddsAsset', '/assets/sample.dds')
+
+	const assets = await Assets.load(['ddsAsset']);
+
+	console.log('assets', assets)
+	console.log('parsers', Assets.loader.parsers)
+
+
 	const app = initializeApp();
-	const background = createBackground();
+	const background = createBackground(assets.ddsAsset);
 
 	app.stage.addChild(background);
 }
@@ -24,8 +35,9 @@ function initializeApp() {
 		width: canvasWidth,
 		height: canvasHeight,
 	});
-	document.body.appendChild(app.view);
-	app.view.classList.add("main-canvas");
+	const view = app.view as any;
+	document.body.appendChild(view);
+	view.classList.add("main-canvas");
 	return app;
 }
 
